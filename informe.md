@@ -2,7 +2,7 @@
 
 **Alumno:** Julián Crespo
 
-## Paso 0:
+## <u>Paso 0</u>
 
 ##### a)
 
@@ -96,6 +96,70 @@ El comando se ejecuta y se interpreta de izquierda a derecha, se ejecuta `a` y s
 
 ---
 
-## Paso 1:
+## <u>Paso 1</u>
+
+##### a)
+
+![](/home/julianc/Imágenes/Screenshot_20200418_215102.png)
+
+###### Archivo paso1_wordscounter.h:
+
+- ***Lines should be <= 80 characters long  [whitespace/line_length]***: El error significa que hay una linea en el archivo que supera los 80 caracteres de largo.
+  
+  
+
+###### Archivo paso1_wordscounter.c:
+
+- ***Missing space before ( in while(  [whitespace/parens]***: No se agrego un espacio entre la condición del while y el keyword "while" es decir en vez de poner `while (condicion)` se uso `while(condicion)`
+
+- ***Mismatching spaces inside () in if  [whitespace/parens]***: Se usaron una cantidad de espacios diferente entre el primer paréntesis del if y la condición y entre la condición y la condición y el paréntesis de cierre, es decir `if ( condicion)` en vez de `if (condicion)` o `if ( condicion )`
+
+- ***Should have zero or one spaces inside ( and ) in if  [whitespace/parens]***: Se usaron dos espacios entre los paréntesis y la condición cuando se debería usar uno o cero.
+
+- ***An else should appear on the same line as the preceding }  [whitespace/newline]***: El else debería aparecer en la misma linea que la llave de cerrado de la condición del if correspondiente.
+
+- ***Missing space before ( in if(  [whitespace/parens]***: Lo mismo que el segundo error pero para un if.
+
+- ***Extra space before last semicolon. If this should be an empty statement, use {} instead.  [whitespace/semicolon]***: Significa que hay un espacio entre la sentencia y el punto y coma que le corresponde, es decir `return algo ;` cuando debería ser `return algo;`
+  
+  
+
+###### Archivo paso1_main_.c:
+
+- ***Almost always, snprintf is better than strcpy  [runtime/printf]***: Se refiere a que el uso de snprintf es mejor o mas seguro en la mayoría de los casos ya que strcpy por ejemplo no tiene forma de saber el tamaño del buffer y esto puede causar problemas de corrupción de memoria por pasarse del tamaño máximo del buffer.
+
+- ***An else should appear on the same line as the preceding }***: Ya explicado
+
+- ***If an else has a brace on one side, it should have it on both  [readability/braces]***: Quiere decir que un else debería tener una cierta simetría con respecto a las llaves, es decir que si se tiene la llave de cierre del if correspondiente en la misma linea que el else, entonces la llave de apertura del else debería también estar en la misma linea que el else, análogamente si la llave de cierre del if correspondiente no esta en la misma linea que el else, entonces la llave de apertura del else tampoco debería estar en esa linea, el problema con esto ultimo es que entraría en conflicto con el error anterior de que el else este en la misma linea que el "}" predecesor.
+
+
+
+---
+
+##### b)
+
+![](/home/julianc/Imágenes/Screenshot_20200418_233532.png)
+
+Todos los errores que se observan son de funciones sin declarar, es decir que el compilador no pudo encontrar la declaración de las funciones que indica, todos los errores son debido a que no se incluyo el archivo `paso1_wordscounter.h` que es el que contiene las declaraciones de las funciones que se indican.
+
+Son todos errores de compilación ya que el proceso de linking es posterior a la compilación y en este caso no se esta llegando a compilar el archivo `paso1_main.c`.
+
+
+
+---
+
+##### c)
+
+No se reporto ningún warning, esto es debido a que a que se utiliza el flag `-Werror` que hace que el compilador trate los warnings como si fuesen errores.
+
+
+
+---
+
+## <u>Paso 2</u>
+
+
+
+
 
 
