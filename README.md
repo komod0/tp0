@@ -373,3 +373,75 @@ El **buffer overflow** sucede cuando nos excedemos de los limites de un buffer y
 
 
 ---
+
+
+
+## <u>Paso 5</u>
+
+##### a)
+
+###### Archivo paso5_main.c:
+
+- Se reemplazo el uso de `memcpy` junto con la declaración de un buffer para guardar el titulo del archivo por el uso directo de `fopen` con el argumento de consola.
+
+- Se agrego código para cerrar los archivos abiertos.
+
+###### Archivo paso5_wordscounter.c:
+
+- Se reemplazo el array de char creado con memoria dinámica por un arreglo `const `de chars
+
+
+
+---
+
+
+
+##### b)
+
+La prueba **Invalid file** falla porque el programa no retorna el código correcto en caso de que se ingrese un archivo no valido/inexistente, en el SERCOM se puede ver que el código esperado era 1 pero se devolvió 255, en el archivo `paso5_main.c` se puede ver que se esta retornando -1 en caso de que falle la apertura del archivo, pero dado que los exit codes toman valores en el rango 0-255, el -1 se convierte en un 255.
+
+![](img/paso5_invalidfile.png)
+
+La prueba **Single word** falla ya que como se puede ver en el SERCOM se devuelve un valor que no es el esperado, la prueba esperaba que se devuelva 1 y se devolvió 0 como la cantidad de palabras, esto es ya que la única palabra del archivo es seguida de un fin de linea, el programa aumenta en uno el contador de palabras solo cuando encuentra un delimitador a continuación de una letra, el problema es que a continuación de la palabra hay un fin de archivo y no un delimitador, por lo que la cuenta final de palabras es 0.
+
+![](img/paso5_singleword.png)
+
+---
+
+##### c)
+
+![](img/paso5_hexdump.png)
+
+Como se puede ver el ultimo caracter es el correspondiente al 64 en hexa, que es la letra "d".
+
+
+
+---
+
+##### d)
+
+![](img/paso5_gdb1.png)
+
+![](img/paso5_gdb2.png)
+
+
+
+- `info functions`: Imprime la firma de todas las funciones definidas en el programa y un grupo de variables definidas implícitamente por el compilador.
+
+- `list wordscounter_next_state`: Muestra el código de la función especificada, en este caso `wordscounter_next_state`.
+
+- `list`: Al ser el ultimo comando ejecutado uno de tipo `list` el comando simplemente imprime mas lineas continuando desde donde quedo el anterior.
+
+- `break 45`: Inserta un breakpoint en la linea 45 del archivo, es decir cuando se "pase" por la linea 45 la ejecución del programa se detendrá.
+
+- `quit`: Sale de gdb.
+
+El debugger no se detuvo en el breakpoint de la linea 45 por lo que se explicó en el item **b)**.
+
+
+
+---
+
+
+
+
