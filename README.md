@@ -242,6 +242,30 @@ Se tratan todos de errores del compilador, ya que como se menciono anteriormente
 
 
 
+## <u>Paso 3</u>
+
+##### a)
+
+###### Archivo paso3_wordscounter.c:
+
+- Se incluyó la librería `<stdlib.h>`
+
+###### Archivo paso3_wordscounter.h:
+
+- Se incluyó la librería `<string.h>` y `<stdio.h>`
+
+
+
+##### b)
+
+![](img/paso3_errorcompilacion.png)
+
+El error se genera ya que no se encontró una definición(pero si una declaración) de la función `wordscounter_destroy`, se completó la etapa de compilación pero no la de linking, por lo que es un error de linkeo, de hecho se puede ver en el error mismo `ld returned 1 exit status`, donde `ld` es el linker de GNU.
+
+
+
+---
+
 
 
 
