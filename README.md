@@ -1,6 +1,14 @@
 # Informe TP0
 
+---
+
 **Alumno:** Julián Crespo
+
+**Padrón:** 100490
+
+**Repositorio:** https://github.com/komod0/tp0
+
+---
 
 ## <u>Paso 0</u>
 
@@ -178,19 +186,13 @@ No se reporto ningún warning, esto es debido a que a que se utiliza el flag `-W
 
 - Se cambió la documentación sobre el typedef `wordscounter_t`.
 
-
-
 ---
 
 ##### b)
 
 ![](img/paso2_errorestilo.png)
 
-
-
 ---
-
-
 
 ##### c)
 
@@ -232,15 +234,9 @@ No se reporto ningún warning, esto es debido a que a que se utiliza el flag `-W
   
   Nuevamente no se incluyo una librería donde se especifique la definición de una función, en este caso `malloc`, como sugiere el compilador se debería incluir por ejemplo `<stdlib.h>`
 
-
-
 Se tratan todos de errores del compilador, ya que como se menciono anteriormente el linker es posterior y no se están terminando de compilar todos los archivos.
 
-
-
 ---
-
-
 
 ## <u>Paso 3</u>
 
@@ -254,23 +250,15 @@ Se tratan todos de errores del compilador, ya que como se menciono anteriormente
 
 - Se incluyó la librería `<string.h>` y `<stdio.h>`
 
-
-
 ##### b)
 
 ![](img/paso3_errorcompilacion.png)
 
 El error se genera ya que no se encontró una definición(pero si una declaración) de la función `wordscounter_destroy`, se completó la etapa de compilación pero no la de linking, por lo que es un error de linkeo, de hecho se puede ver en el error mismo `ld returned 1 exit status`, donde `ld` es el linker de GNU.
 
-
-
 ---
 
-
-
 ## <u>Paso 4</u>
-
-
 
 ##### a)
 
@@ -278,11 +266,7 @@ El error se genera ya que no se encontró una definición(pero si una declaraci�
 
 - Se agregó una definición de la función `wordscounter_destroy`.
 
-
-
 ---
-
-
 
 ##### b)
 
@@ -327,8 +311,6 @@ El error se genera ya que no se encontró una definición(pero si una declaraci�
   
   Ademas hay perdida de memoria, en parte por los archivos que no se cerraron y en parte por la cadena de caracteres que contiene los caracteres delimitadores que se crea con memoria dinámica en el archivo `paso4_wordscounter.c` pero no se libera nunca.
 
-
-
 ---
 
 ##### c)
@@ -352,15 +334,11 @@ El error se genera ya que no se encontró una definición(pero si una declaraci�
   
   Hay dos errores, uno es el mismo que en el test anterior, que no se cerraron archivos que se abrieron, el otro esta relacionado con un buffer overflow como se menciona, lo que pasa probablemente es que se uso un archivo cuyo nombre tiene una longitud mayor a 30 caracteres, que son los que se especifican en `paso4_main.c`.
 
-
-
 ---
 
 ##### d)
 
 Si, se podría haber evitado el buffer overflow con `strncpy` ya que la función limita la cantidad de bytes que se pueden copiar en el string de destino , suponiendo que se limita la cantidad de caracteres del nombre del archivo a 30, la ejecución de la prueba habría fallado en el ejemplo anterior, ya que al usar `strncpy` se habría truncado el nombre del archivo, entonces cuando se intenta abrir fallaría.
-
-
 
 ---
 
@@ -370,11 +348,7 @@ Un **segmentation fault** ocurre cuando se intenta acceder a una posición de me
 
 El **buffer overflow** sucede cuando nos excedemos de los limites de un buffer y comenzamos a escribir fuera de ellos.
 
-
-
 ---
-
-
 
 ## <u>Paso 5</u>
 
@@ -390,11 +364,7 @@ El **buffer overflow** sucede cuando nos excedemos de los limites de un buffer y
 
 - Se reemplazo el array de char creado con memoria dinámica por un arreglo `const `de chars
 
-
-
 ---
-
-
 
 ##### b)
 
@@ -414,8 +384,6 @@ La prueba **Single word** falla ya que como se puede ver en el SERCOM se devuelv
 
 Como se puede ver el ultimo caracter es el correspondiente al 64 en hexa, que es la letra "d".
 
-
-
 ---
 
 ##### d)
@@ -423,8 +391,6 @@ Como se puede ver el ultimo caracter es el correspondiente al 64 en hexa, que es
 ![](img/paso5_gdb1.png)
 
 ![](img/paso5_gdb2.png)
-
-
 
 - `info functions`: Imprime la firma de todas las funciones definidas en el programa y un grupo de variables definidas implícitamente por el compilador.
 
@@ -438,11 +404,7 @@ Como se puede ver el ultimo caracter es el correspondiente al 64 en hexa, que es
 
 El debugger no se detuvo en el breakpoint de la linea 45 por lo que se explicó en el item **b)**.
 
-
-
 ---
-
-
 
 ## <u>Paso 6</u>
 
@@ -458,21 +420,13 @@ El debugger no se detuvo en el breakpoint de la linea 45 por lo que se explicó 
 
 - Se modificó la lógica del programa para que tenga en cuanta el caso donde hay un EOF inmediatamente después de una palabra.
 
-
-
 ---
-
-
 
 ##### b)
 
 ![](img/entregas.png)
 
-
-
 ---
-
-
 
 ##### c)
 
