@@ -147,3 +147,101 @@ No se reporto ningún warning, esto es debido a que a que se utiliza el flag `-W
 ---
 
 ## <u>Paso 2</u>
+
+##### a)
+
+###### Archivo paso2_main.c:
+
+- Se incluyo el archivo `paso2_wordscounter.h`
+
+- Se reemplazo la función `strcpy(...)` por `memcpy(...)`
+
+- Se movió el else que maneja el origen del input para que quede en la misma linea que la llave de cierre del if.
+
+###### Archivo paso2_wordscounter.c:
+
+- Se cambió la posición del include `paso*_wordscounter.h`
+
+- Se movió la llave de apertura de la función `wordscounter_create` para que quede en la misma linea que la firma de la función.
+
+- Se agrego espacio entre el `while` y el paréntesis de la condición(linea 26)
+
+- Se eliminó espacio entre el paréntesis de apertura del if y la condición(linea 40)
+
+- Se movió el else para que quede en la misma linea que la llave de cierre del if correspondiente(linea 45).
+
+- Se agrego espacio entre el if y el paréntesis de la condición(Linea 46)
+
+- Se eliminó el espacio entre `next_state` el punto y coma.
+
+###### Archivo paso2_wordscounter.h:
+
+- Se cambió la documentación sobre el typedef `wordscounter_t`.
+
+
+
+---
+
+##### b)
+
+![](img/paso2_errorestilo.png)
+
+
+
+---
+
+
+
+##### c)
+
+![](img/paso2_errorcompilacion.png)
+
+- ```c
+  In file included from paso2_wordscounter.c:1:0:
+  paso2_wordscounter.h:7:5: error: unknown type name 'size_t'
+       size_t words;
+       ^
+  paso2_wordscounter.h:20:1: error: unknown type name 'size_t'
+   size_t wordscounter_get_words(wordscounter_t *self);
+   ^
+  paso2_wordscounter.h:25:49: error: unknown type name 'FILE'
+   void wordscounter_process(wordscounter_t *self, FILE *text_file);
+  ```
+  
+  No se incluyeron las librerías en donde se define el tipo `size_t` o `FILE`
+
+- ```c
+  paso2_wordscounter.c:17:8: error: conflicting types for 'wordscounter_get_words'
+   size_t wordscounter_get_words(wordscounter_t *self) {
+          ^
+  In file included from paso2_wordscounter.c:1:0:
+  paso2_wordscounter.h:20:8: note: previous declaration of 'wordscounter_get_words' was here
+   size_t wordscounter_get_words(wordscounter_t *self);
+  ```
+  
+  El error anterior lleva a que se generen conflictos a la hora de declaración de ciertas funciones que utilizan los tipos mencionados anteriores.
+
+- ```c
+  paso2_wordscounter.c: In function 'wordscounter_next_state':
+  paso2_wordscounter.c:30:25: error: implicit declaration of function 'malloc' [-Wimplicit-function-declaration]
+       char* delim_words = malloc(7 * sizeof(char));
+                           ^
+  paso2_wordscounter.c:30:25: error: incompatible implicit declaration of built-in function 'malloc' [-Werror]
+  paso2_wordscounter.c:30:25: note: include '<stdlib.h>' or provide a declaration of 'malloc'
+  ```
+  
+  Nuevamente no se incluyo una librería donde se especifique la definición de una función, en este caso `malloc`, como sugiere el compilador se debería incluir por ejemplo `<stdlib.h>`
+
+
+
+Se tratan todos de errores del compilador, ya que como se menciono anteriormente el linker es posterior y no se están terminando de compilar todos los archivos.
+
+
+
+---
+
+
+
+
+
+
