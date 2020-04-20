@@ -268,4 +268,108 @@ El error se genera ya que no se encontró una definición(pero si una declaraci�
 
 
 
+## <u>Paso 4</u>
 
+
+
+##### a)
+
+###### Archivo paso4_wordscounter.c:
+
+- Se agregó una definición de la función `wordscounter_destroy`.
+
+
+
+---
+
+
+
+##### b)
+
+![](img/paso4_valgrindTDA.png)
+
+- ```c
+  ==00:00:00:00.560 20684== FILE DESCRIPTORS: 3 open at exit.
+  ==00:00:00:00.560 20684== Open file descriptor 2: input_tda.txt
+  ==00:00:00:00.560 20684==    at 0x4113813: __open_nocancel (syscall-template.S:84)
+  ==00:00:00:00.560 20684==    by 0x40A79BF: _IO_file_open (fileops.c:221)
+  ==00:00:00:00.560 20684==    by 0x40A7B40: _IO_file_fopen@@GLIBC_2.1 (fileops.c:328)
+  ==00:00:00:00.560 20684==    by 0x409C2D0: __fopen_internal (iofopen.c:86)
+  ==00:00:00:00.560 20684==    by 0x409C33D: fopen@@GLIBC_2.1 (iofopen.c:97)
+  ==00:00:00:00.560 20684==    by 0x8048517: main (paso4_main.c:14)
+  ==00:00:00:00.560 20684== 
+  ==00:00:00:00.560 20684== Open file descriptor 1: /mnt/data/sercom/tmp/prueba.434721.stdout
+  ==00:00:00:00.560 20684==    <inherited from parent>
+  ==00:00:00:00.560 20684== 
+  ==00:00:00:00.560 20684== Open file descriptor 0: /home/sercom_backend/test/valgrind.out
+  ==00:00:00:00.560 20684==    <inherited from parent>
+  ```
+  
+  Se abrieron archivos pero no fueron cerrados, el error da información sobre donde se abrió cada uno.
+
+- ```c
+  ==00:00:00:00.560 20684== HEAP SUMMARY:
+  ==00:00:00:00.560 20684==     in use at exit: 1,849 bytes in 216 blocks
+  ==00:00:00:00.560 20684==   total heap usage: 218 allocs, 2 frees, 10,041 bytes allocated
+  ==00:00:00:00.560 20684== 
+  ==00:00:00:00.561 20684== 344 bytes in 1 blocks are still reachable in loss record 1 of 2
+  ==00:00:00:00.561 20684==    at 0x402D17C: malloc (in /usr/lib/valgrind/vgpreload_memcheck-x86-linux.so)
+  ==00:00:00:00.561 20684==    by 0x409C279: __fopen_internal (iofopen.c:69)
+  ==00:00:00:00.561 20684==    by 0x409C33D: fopen@@GLIBC_2.1 (iofopen.c:97)
+  ==00:00:00:00.561 20684==    by 0x8048517: main (paso4_main.c:14)
+  ==00:00:00:00.561 20684== 
+  ==00:00:00:00.561 20684== 1,505 bytes in 215 blocks are definitely lost in loss record 2 of 2
+  ==00:00:00:00.561 20684==    at 0x402D17C: malloc (in /usr/lib/valgrind/vgpreload_memcheck-x86-linux.so)
+  ==00:00:00:00.561 20684==    by 0x8048685: wordscounter_next_state (paso4_wordscounter.c:35)
+  ==00:00:00:00.561 20684==    by 0x8048755: wordscounter_process (paso4_wordscounter.c:30)
+  ==00:00:00:00.561 20684==    by 0x8048535: main (paso4_main.c:24)
+  ```
+  
+  Ademas hay perdida de memoria, en parte por los archivos que no se cerraron y en parte por la cadena de caracteres que contiene los caracteres delimitadores que se crea con memoria dinámica en el archivo `paso4_wordscounter.c` pero no se libera nunca.
+
+
+
+---
+
+##### c)
+
+![](img/paso4_valgrindLongFile.png)
+
+- ```c
+  **00:00:00:00.508 20645** *** memcpy_chk: buffer overflow detected ***: program terminated
+  ==00:00:00:00.508 20645==    at 0x402FD97: ??? (in /usr/lib/valgrind/vgpreload_memcheck-x86-linux.so)
+  ==00:00:00:00.508 20645==    by 0x40346EB: __memcpy_chk (in /usr/lib/valgrind/vgpreload_memcheck-x86-linux.so)
+  ==00:00:00:00.508 20645==    by 0x804850A: memcpy (string3.h:53)
+  ==00:00:00:00.508 20645==    by 0x804850A: main (paso4_main.c:13)
+  ==00:00:00:00.525 20645== 
+  ==00:00:00:00.525 20645== FILE DESCRIPTORS: 2 open at exit.
+  ==00:00:00:00.525 20645== Open file descriptor 1: /mnt/data/sercom/tmp/prueba.434712.stdout
+  ==00:00:00:00.525 20645==    <inherited from parent>
+  ==00:00:00:00.525 20645== 
+  ==00:00:00:00.525 20645== Open file descriptor 0: /home/sercom_backend/test/valgrind.out
+  ==00:00:00:00.525 20645==    <inherited from parent>
+  ```
+  
+  Hay dos errores, uno es el mismo que en el test anterior, que no se cerraron archivos que se abrieron, el otro esta relacionado con un buffer overflow como se menciona, lo que pasa probablemente es que se uso un archivo cuyo nombre tiene una longitud mayor a 30 caracteres, que son los que se especifican en `paso4_main.c`.
+
+
+
+---
+
+##### d)
+
+Si, se podría haber evitado el buffer overflow con `strncpy` ya que la función limita la cantidad de bytes que se pueden copiar en el string de destino , suponiendo que se limita la cantidad de caracteres del nombre del archivo a 30, la ejecución de la prueba habría fallado en el ejemplo anterior, ya que al usar `strncpy` se habría truncado el nombre del archivo, entonces cuando se intenta abrir fallaría.
+
+
+
+---
+
+##### e)
+
+Un **segmentation fault** ocurre cuando se intenta acceder a una posición de memoria restringida/no permitida.
+
+El **buffer overflow** sucede cuando nos excedemos de los limites de un buffer y comenzamos a escribir fuera de ellos.
+
+
+
+---
