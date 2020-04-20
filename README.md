@@ -444,4 +444,36 @@ El debugger no se detuvo en el breakpoint de la linea 45 por lo que se explicó 
 
 
 
+## <u>Paso 6</u>
 
+##### a)
+
+###### Archivo paso6_main.c:
+
+- Se cambio el valor de retorno en caso de que falle la apertura del archivo de -1 a 1.
+
+###### Archivo paso6_wordscounter.c:
+
+- Se reemplazo la variable const que almacenaba los delimitadores por una macro.
+
+- Se modificó la lógica del programa para que tenga en cuanta el caso donde hay un EOF inmediatamente después de una palabra.
+
+
+
+---
+
+
+
+##### b)
+
+![](img/entregas.png)
+
+
+
+---
+
+
+
+##### c)
+
+![](img/paso6_local.png)
